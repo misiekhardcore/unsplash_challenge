@@ -1,22 +1,43 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<{ blank?: boolean }>`
   font-weight: 700;
-  color: white;
+  color: ${(props) => (props.blank ? "#BDBDBD" : "white")};
   font-family: "Noto Sans", sans-serif;
   font-style: normal;
-  background-color: #3db46d;
-  border: solid 1px #3db46d;
+  background-color: ${(props) =>
+    props.blank ? "rgba(0,0,0,0)" : "#3db46d"};
+  border: ${(props) => (props.blank ? "none" : "solid 1px #3db46d")};
   border-radius: 12px;
-  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+  ${(props) =>
+    !props.blank && "box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);"}
   padding: 1.5rem;
+  transition: all 0.3s ease;
+
+  &:hover,
+  &focus {
+    cursor: pointer;
+    ${(props) => !props.blank && "background-color: #1a7940;"}
+    ${(props) => props.blank && "color: #999;"}
+  }
 `;
 
-interface ButtonProps {}
+interface ButtonProps {
+  blank?: boolean;
+  onClick?: () => any;
+  type?: "button" | "submit" | "reset";
+}
 
-export const Button: React.FC<ButtonProps> = ({ children }) => {
+export const Button: React.FC<ButtonProps> = ({
+  blank = false,
+  children,
+  onClick,
+  type = "button",
+}) => {
   return (
-    <StyledButton placeholder="Search by name">{children}</StyledButton>
+    <StyledButton type={type} blank={blank} onClick={onClick}>
+      {children}
+    </StyledButton>
   );
 };
