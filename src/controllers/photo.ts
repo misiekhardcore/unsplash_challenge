@@ -8,7 +8,7 @@ export const getPhotos = async (
 ) => {
   try {
     const photos = await getRepository(Photo).find({
-      relations: ["user"],
+      // relations: ["user"],
       order: { createdAt: "DESC" },
       where: { label: Like(`%${req.query.search}%`) },
       take: 10,
