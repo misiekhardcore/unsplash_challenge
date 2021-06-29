@@ -1,8 +1,8 @@
-import "reflect-metadata";
-import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import express from "express";
 import path from "path";
+import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { Photo } from "./entites/Photo";
 import { User } from "./entites/User";
@@ -46,9 +46,16 @@ const main = async () => {
 
   await conn.runMigrations();
 
+  app.use(express.static(path.join(__dirname, "..", "frontend/build")));
+  app.use(express.static("public"));
+
   // Routes
   app.use("/api/photos", photoRouter);
   app.use("/api/users", userRouter);
+
+  app.use((_, res, __) => {
+    res.sendFile(path.join(__dirname, "..", "frontend/build", "index.html"));
+  });
 
   // 404
   app.use((_, res) => {
