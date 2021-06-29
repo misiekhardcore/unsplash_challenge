@@ -1,10 +1,20 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+import { getRepository, Like } from "typeorm";
 import { Photo } from "../entites/Photo";
 
-export const getPhotos = async (_: Request, res: Response) => {
+export const getPhotos = async (
+  req: Request<{}, {}, {}, { page: number; search: string }>,
+  res: Response
+) => {
   try {
-    const photos = await getRepository(Photo).find({relations:['user']});
+    const photos = await getRepository(Photo).find({
+      relations: ["user"],
+      order: { createdAt: "DESC" },
+      where: { label: Like(`%${req.query.search}%`) },
+      take: 10,
+      skip: req.query.page * 10,
+    });
+
     return res.status(200).json(photos);
   } catch (error) {
     return res.status(500).json({ message: "server error" });
