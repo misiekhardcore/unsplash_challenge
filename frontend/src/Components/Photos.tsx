@@ -1,33 +1,30 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Photo } from "../types";
-import { PhotoCard } from "./PhotoCard";
+import React from "react";
+import Masonry from "react-masonry-css";
 import styled from "styled-components";
+import { useAppSelector } from "../hooks/hooks";
+import { selectPhotos } from "../redux/photosSlice";
+import { PhotoCard } from "./PhotoCard";
 
 const Container = styled.div`
   padding: 2rem 5.5rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
 `;
 
-export const Photos: React.FC = () => {
-  const [photos, setPhotos] = useState<Photo[]>([]);
+interface photosProps {}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get<Photo[]>(
-        "http://172.28.78.123:5000/api/photos",
-        {}
-      );
-      if (result) setPhotos(result.data);
-    };
-    fetchData();
-  }, []);
+export const Photos: React.FC<photosProps> = () => {
+  const { photos } = useAppSelector(selectPhotos);
+
   return (
     <Container>
-      {photos.map((photo) => (
-        <PhotoCard photo={photo} key={photo.id} />
-      ))}
+      <Masonry
+        breakpointCols={3}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
+        {photos.map((photo) => (
+          <PhotoCard photo={photo} key={photo.id} />
+        ))}
+      </Masonry>
     </Container>
   );
 };
