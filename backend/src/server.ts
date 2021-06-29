@@ -19,8 +19,8 @@ const main = async () => {
   // Add cors
   app.use(
     cors({
-      origin: process.env.ORIGIN,
-      credentials: true,
+      origin: "*",
+      credentials: false,
     })
   );
 
