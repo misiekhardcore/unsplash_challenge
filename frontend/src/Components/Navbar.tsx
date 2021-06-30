@@ -9,6 +9,14 @@ const StyledNav = styled.nav`
   padding: 2rem 5.5rem;
   display: flex;
   justify-content: space-between;
+  
+  @media (max-width: 800px){
+    padding: 2rem;
+  }
+  
+    @media (max-width: 414px){
+    padding: 2rem 1rem;
+  }
 `;
 
 export const Flex = styled.div`
