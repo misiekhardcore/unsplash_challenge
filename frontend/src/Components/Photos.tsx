@@ -17,7 +17,7 @@ export const Photos: React.FC<photosProps> = () => {
   return (
     <Container>
       <Masonry
-        breakpointCols={3}
+        breakpointCols={default:3,800:2,414:1}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
