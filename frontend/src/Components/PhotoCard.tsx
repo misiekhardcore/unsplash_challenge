@@ -34,6 +34,7 @@ const Card = styled.div`
     justify-content: space-between;
     visibility: hidden;
     opacity: 0;
+    border-radius: 1rem;
 
     button {
       padding: 0.375rem 1rem;
