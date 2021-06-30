@@ -25,6 +25,12 @@ export const Flex = styled.div`
   align-items: center;
 `;
 
+const Logo = styled(Flex)`
+  @media (max-width: 600px){
+    display:block;
+  }
+`
+
 export const FColumn = styled(Flex)`
   flex-direction: column;
   align-items: flex-start;
@@ -46,6 +52,13 @@ export const FColumn = styled(Flex)`
 
 const Form = styled.form`
   display: flex;
+  
+  @media (max-width: 600px){
+    input {
+      margin: 0;
+      margin-top: 1rem;
+    }
+  }
 `;
 
 interface navbarProps {
@@ -64,7 +77,7 @@ export const Navbar: React.FC<navbarProps> = ({
   return (
     <StyledNav>
       <Flex>
-        <Flex>
+        <Logo>
           <img
             style={{ marginRight: "0.7rem" }}
             src="https://picsum.photos/20/20"
@@ -74,7 +87,7 @@ export const Navbar: React.FC<navbarProps> = ({
             <h3>My Unsplash</h3>
             <p>devchallenges.io</p>
           </FColumn>
-        </Flex>
+        </Logo>
         <Form
           onSubmit={(e) => {
             e.preventDefault();
