@@ -23,11 +23,15 @@ export const Flex = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  
+   @media (max-width: 600px){
+    flex-wrap: wrap;
+  }
 `;
 
 const Logo = styled(Flex)`
   @media (max-width: 600px){
-    display:block;
+    display: block;
   }
 `
 
