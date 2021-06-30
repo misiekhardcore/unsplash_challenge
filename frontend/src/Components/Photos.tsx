@@ -7,6 +7,14 @@ import { PhotoCard } from "./PhotoCard";
 
 const Container = styled.div`
   padding: 2rem 5.5rem;
+  
+  @media (max-width: 800px){
+    padding: 2rem;
+  }
+  
+    @media (max-width: 414px){
+    padding: 2rem 1rem;
+  }
 `;
 
 interface photosProps {}
@@ -17,7 +25,12 @@ export const Photos: React.FC<photosProps> = () => {
   return (
     <Container>
       <Masonry
-        breakpointCols={default:3,800:2,414:1}
+        breakpointCols={{
+          default: 4,
+          1200: 3,
+          800: 2,
+          414: 1,
+        }}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
