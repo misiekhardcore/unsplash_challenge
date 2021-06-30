@@ -25,6 +25,11 @@ const FormAddPhoto = styled.div`
   padding: 2rem 5.5rem;
   border-radius: 12px;
   width: 50%;
+  
+  @media (max-width: 800px){
+    width:100%;
+    padding: 2rem;
+  }
 
   h1 {
     font-size: 1.5rem;
