@@ -7,27 +7,32 @@ import axios from "axios";
 import { RootState } from "./store";
 import { Photo } from "../types";
 
-export interface ProductsState {
+interface IGetAllPhotos {
   photos: Photo[];
+  isNext: boolean;
+}
+
+export interface ProductsState extends IGetAllPhotos {
   loading: boolean;
   error: SerializedError | undefined;
 }
 
 const initialState: ProductsState = {
+  isNext: true,
   photos: [],
   loading: false,
   error: undefined,
 };
 
 export const getAllPhotos = createAsyncThunk<
-  Photo[],
+  IGetAllPhotos,
   { page: number; search: string },
   { rejectValue: SerializedError }
 >(
   "photos/getAllPhotos",
   async ({ page = 0, search = "" }, { rejectWithValue }) => {
     try {
-      const response = await axios.get<Photo[]>(
+      const response = await axios.get<IGetAllPhotos>(
         `${process.env.REACT_APP_API_URI}/api/photos/?page=${page}&search=${search}`
       );
       return response.data;
@@ -84,7 +89,8 @@ export const photosSlice = createSlice({
       })
       .addCase(getAllPhotos.fulfilled, (state, action) => {
         state.loading = false;
-        state.photos.push(...action.payload);
+        state.photos.push(...action.payload.photos);
+        state.isNext = action.payload.isNext;
         state.error = undefined;
       })
       .addCase(getAllPhotos.rejected, (state, action) => {
