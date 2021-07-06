@@ -22,7 +22,9 @@ export const getPhotos = async (
     if (photos.length === perPage + 1) {
       isNext = true;
     }
-    return res.status(200).json({ photos, isNext });
+    return res
+      .status(200)
+      .json({ photos: photos.slice(0, perPage), isNext });
   } catch (error) {
     return res.status(500).json({ message: "server error" });
   }
