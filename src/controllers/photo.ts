@@ -4,18 +4,25 @@ import { Photo } from "../entites/Photo";
 
 export const getPhotos = async (
   req: Request<{}, {}, {}, { page: number; search: string }>,
-  res: Response
+  res: Response<
+    { photos: Photo[]; isNext: boolean } | { message: string }
+  >
 ) => {
   try {
+    const perPage = 10;
     const photos = await getRepository(Photo).find({
       // relations: ["user"],
       order: { createdAt: "DESC" },
       where: { label: Like(`%${req.query.search}%`) },
-      take: 10,
-      skip: req.query.page * 10,
+      take: perPage + 1,
+      skip: req.query.page * perPage,
     });
 
-    return res.status(200).json(photos);
+    let isNext = false;
+    if (photos.length === perPage + 1) {
+      isNext = true;
+    }
+    return res.status(200).json({ photos, isNext });
   } catch (error) {
     return res.status(500).json({ message: "server error" });
   }
