@@ -4,8 +4,8 @@ import { AddPhoto } from "./Components/AddPhoto";
 import { Button } from "./Components/Button";
 import { Navbar } from "./Components/Navbar";
 import { Photos } from "./Components/Photos";
-import { useAppDispatch } from "./hooks/hooks";
-import { getAllPhotos } from "./redux/photosSlice";
+import { useAppDispatch, useAppSelector } from "./hooks/hooks";
+import { getAllPhotos, selectPhotos } from "./redux/photosSlice";
 
 const Container = styled.div`
   position: relative;
@@ -15,6 +15,7 @@ export const App: React.FC = () => {
   const [toggle, setToggle] = useState(false);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
+  const { isNext } = useAppSelector(selectPhotos);
 
   const dispatch = useAppDispatch();
 
@@ -39,9 +40,11 @@ export const App: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        <Button onClick={() => setPage((prev) => prev + 1)}>
-          Load more...
-        </Button>
+        {isNext && (
+          <Button onClick={() => setPage((prev) => prev + 1)}>
+            Load more...
+          </Button>
+        )}
       </div>
     </Container>
   );
