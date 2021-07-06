@@ -48,6 +48,10 @@ export const createPhoto = createAsyncThunk<
   { rejectValue: SerializedError }
 >("photo/createPhoto", async (photo, { rejectWithValue }) => {
   try {
+    if (!(photo.label.trim() && photo.url.trim()))
+      return rejectWithValue({
+        message: "url and/or label cannot be empty",
+      });
     const response = await axios.post<Photo>(
       `${process.env.REACT_APP_API_URI}/api/photos/`,
       { ...photo, user: 1 }

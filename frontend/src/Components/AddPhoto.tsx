@@ -25,9 +25,9 @@ const FormAddPhoto = styled.div`
   padding: 2rem 5.5rem;
   border-radius: 12px;
   width: 50%;
-  
-  @media (max-width: 800px){
-    width:100%;
+
+  @media (max-width: 800px) {
+    width: 100%;
     padding: 2rem;
   }
 
@@ -65,21 +65,32 @@ const FormAddPhoto = styled.div`
   }
 `;
 
+const Error = styled.p`
+  color: red;
+`;
+
 interface AddPhotoProps {
   setToggle: (a: any) => any;
 }
 
 export const AddPhoto: React.FC<AddPhotoProps> = ({ setToggle }) => {
   const [state, setState] = useState({ label: "", url: "", user: 1 });
+  const [error, setError] = useState("");
   const dispatch = useAppDispatch();
 
   return (
     <ContainerAddPhoto>
       <FormAddPhoto>
         <h1>Add a new photo</h1>
+        {error && <Error>{error}</Error>}
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            if (!(state.url.trim() && state.label.trim())) {
+              setError("URL and/or label cannot be empty");
+              return;
+            }
+            setError("");
             dispatch(createPhoto({ ...state }));
           }}
         >

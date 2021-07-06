@@ -46,6 +46,7 @@ export const createPhoto = async (req: Request, res: Response) => {
   try {
     const { label, url, user } = req.body;
 
+    if (!(label.trim() && url.trim() && user)) return;
     const newPhoto = new Photo();
     newPhoto.label = label;
     newPhoto.url = url;
